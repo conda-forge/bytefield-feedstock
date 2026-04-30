@@ -1,0 +1,44 @@
+schema_version: 1
+
+context:
+  name: bytefield
+  version: "1.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/bytefield-${{ version }}.tar.gz
+  sha256: eb5f8c8d51de54d8764041531521e072b4e6208acd3504f1f2260c0d6377599e
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - numpy
+
+tests:
+  - python:
+      imports:
+        - bytefield
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Parse binary data using declarative field layout and native Python properties
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/donadigo/bytefield
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
